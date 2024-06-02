@@ -42,6 +42,11 @@ if ($userResult && mysqli_num_rows($userResult) > 0) {
             $attendanceQuery = "SELECT * FROM attendance WHERE s_id = '$sUserId' AND r_id = '$r_id' AND DATE(date) = CURDATE()";
             $attendanceResult = mysqli_query($conn, $attendanceQuery);
             $isAttendanceMarked = mysqli_num_rows($attendanceResult) > 0;
+            if(!$isAttendanceMarked){
+              $attendanceQuery = "SELECT * FROM pendingAttendances WHERE s_id = '$sUserId' AND r_id = '$r_id' AND DATE(date) = CURDATE()";
+            $attendanceResult = mysqli_query($conn, $attendanceQuery);
+            $isAttendanceMarked = mysqli_num_rows($attendanceResult) > 0;
+            }
 
         } else {
             $routine = null;
