@@ -68,6 +68,9 @@
               <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/classes.php">Classes</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="/settings.php">Settings</a>
             </li>
             <li class="nav-item">

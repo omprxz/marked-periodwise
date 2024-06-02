@@ -27,12 +27,13 @@ if (!isset($_SESSION['userid'])) {
     <h2 class="text-center my-3">Add Marks</h2>
     <form action="actions/addMarksAction.php" method="post" class="my-3 mx-2" id="marksForm">
       <div class="input-group mb-3">
-        <span class="input-group-text">Attendance Range</span>
-        <input name="minAtt" type="number" class="form-control min-att" aria-label="Mininum attendance" placeholder="Mininum">
-        <input name="maxAtt" type="number" class="form-control max-att" aria-label="Maximum attendance" placeholder="Maximum">
+        <span class="input-group-text">Attendance</span>
+        <input name="minAtt" type="number" class="form-control min-att" aria-label="Mininum attendance" placeholder="Min %">
+        <input name="maxAtt" type="number" class="form-control max-att" aria-label="Maximum attendance" placeholder="Max %">
       </div>
       <div class="form-floating mb-4">
-        <select name="session[]" multiple class="form-select session" aria-label="Session">
+        <select name="session" class="form-select session" aria-label="Session">
+          <option value="" selected disabled>Select Session</option>
           <?php
             $sessionQuery = "SELECT DISTINCT session FROM users where role = 'student';";
             $sessionResult = mysqli_query($conn, $sessionQuery);
@@ -44,7 +45,8 @@ if (!isset($_SESSION['userid'])) {
         <label for="session">Session</label>
       </div>
       <div class="form-floating mb-4">
-        <select name="branch[]" multiple class="form-select branch" aria-label="Branch">
+        <select name="branch" class="form-select branch" aria-label="Branch">
+          <option value="" selected disabled>Select Branch</option>
           <?php
             $sessionQuery = "SELECT DISTINCT branch FROM users where role = 'student';";
             $sessionResult = mysqli_query($conn, $sessionQuery);
@@ -55,33 +57,22 @@ if (!isset($_SESSION['userid'])) {
         </select>
         <label for="branch">Branch</label>
       </div>
-      <div class="form-floating mb-4">
-        <select name="semester[]" multiple class="form-select semester" aria-label="Semester">
-          <?php
-            $sessionQuery = "SELECT DISTINCT semester FROM users where role = 'student';";
-            $sessionResult = mysqli_query($conn, $sessionQuery);
-            while($row = mysqli_fetch_assoc($sessionResult)) {
-              echo "<option value='".$row['semester']."'>".$row['semester']."</option>";
-            }
-          ?>
-        </select>
-        <label for="semester">Semester</label>
-      </div>
       <div class="form-floating mb-3">
         <input name="marks" type="number" class="form-control marks" id="floatingMarks" placeholder="Marks">
         <label for="floatingMarks">Marks</label>
       </div>
       <div class="form-floating mb-3">
-        <select name="subjects[]" class="form-select subjects" aria-label="Subjects" multiple>
+        <select name="subject" class="form-select subject" aria-label="Subject" >
+          <option value="" selected disabled>Select Subject</option>
           <?php
-            $subjectQuery = "SELECT id, subject FROM subjects";
+            $subjectQuery = "SELECT id, name FROM subjects";
             $subjectResult = mysqli_query($conn, $subjectQuery);
             while($row = mysqli_fetch_assoc($subjectResult)) {
-              echo "<option value='".$row['id']."'>".$row['subject']."</option>";
+              echo "<option value='".$row['id']."'>".$row['name']."</option>";
             }
           ?>
         </select>
-        <label for="subject">Subjects</label>
+        <label for="subject">Subject</label>
       </div>
       <div class="form-floating mb-4">
         <select name="resType" class="form-select res-type" aria-label="Result Type">
@@ -132,34 +123,25 @@ $('.add').click(function () {
   const minAtt = $('.min-att').val();
   const maxAtt = $('.max-att').val();
   const session = $('.session').val();
+  const branch = $('.branch').val();
   const marks = $('.marks').val();
-  const subjects = $('.subjects').val();
+  const subject = $('.subject').val();
   const resType = $('.res-type').val();
 
-  if (minAtt === '') {
+  if (session === null) {
     Toast.fire({
       icon: 'error',
-      title: 'Minimum attendance is required'
+      title: 'Session is required'
     });
     return;
   }
-
-  if (maxAtt === '') {
+  if (branch === null) {
     Toast.fire({
       icon: 'error',
-      title: 'Maximum attendance is required'
+      title: 'Branch is required'
     });
     return;
   }
-  
-  if (session === null || session.length === 0) {
-    Toast.fire({
-      icon: 'error',
-      title: 'At least one session is required'
-    });
-    return;
-  }
-
   if (marks === '') {
     Toast.fire({
       icon: 'error',
@@ -167,21 +149,25 @@ $('.add').click(function () {
     });
     return;
   }
-
-  if (subjects === null || subjects.length === 0) {
+  if (subject === null) {
     Toast.fire({
       icon: 'error',
-      title: 'At least one subject must be selected'
+      title: 'Subject must be selected'
     });
     return;
   }
-
   if (resType === null) {
     Toast.fire({
       icon: 'error',
       title: 'Result type is required'
     });
     return;
+  }
+  if (minAtt === '') {
+    $('.min-att').val(0)
+  }
+  if (maxAtt === '') {
+    $('.max-att').val(100);
   }
 
   $.ajax({
@@ -202,7 +188,7 @@ $('.add').click(function () {
         title: response.message
       });
       if(response['status']){
-        $('#marksForm')[0].reset()
+        //$('#marksForm')[0].reset()
       }
     },
     error: function(xhr, status, error) {

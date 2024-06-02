@@ -48,8 +48,6 @@ if ($userResult && mysqli_num_rows($userResult) > 0) {
                 while ($routineData = mysqli_fetch_assoc($routineResult)) {
                     $routineId = $routineData['id'];
                     $routineDay = $routineData['day'];
-
-                    // Check if routine day is not Sunday (assuming day 0 represents Sunday)
                     if ($routineDay != 0) {
                         $routineEndDate = date('Y-m-d');
                         $routineStartDate = date('Y-m-d', strtotime("-6 days"));

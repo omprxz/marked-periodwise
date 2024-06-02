@@ -13,11 +13,11 @@ $marks_result = mysqli_query($conn, $marks_query);
 
 $has_marks = mysqli_num_rows($marks_result) > 0;
 
-$subject_query = "SELECT id, subject FROM subjects";
+$subject_query = "SELECT id, name FROM subjects";
 $subject_result = mysqli_query($conn, $subject_query);
 $subjects = array();
 while ($row = mysqli_fetch_assoc($subject_result)) {
-    $subjects[$row['id']] = $row['subject'];
+    $subjects[$row['id']] = $row['name'];
 }
 
 $user_query = "SELECT name, branch, semester, session, roll FROM users WHERE id = '$sUserId'";
@@ -73,10 +73,10 @@ $semester_ordinal = ordinal($user['semester']);
         <div class="marks-div d-flex flex-column gap-3 mt-4">
             <?php if($has_marks) { ?>
                 <?php
-                $result_types_query = "SELECT DISTINCT resultType_id FROM marks";
+                $result_types_query = "SELECT DISTINCT resT_id FROM marks";
                 $result_types_result = mysqli_query($conn, $result_types_query);
                 while ($result_type_row = mysqli_fetch_assoc($result_types_result)) {
-                    $result_type_id = $result_type_row['resultType_id'];
+                    $result_type_id = $result_type_row['resT_id'];
                     $result_type_query = "SELECT type FROM result_types WHERE id = '$result_type_id'";
                     $result_type_result = mysqli_query($conn, $result_type_query);
                     $result_type_row = mysqli_fetch_assoc($result_type_result);
@@ -85,8 +85,8 @@ $semester_ordinal = ordinal($user['semester']);
                     <div class="marks-type-div">
                         <h4 class="text-decoration-underline">
                             <?php echo $result_type; ?>
-                            <a href="actions/generate_marks_pdf.php?resultType_id=<?php echo $result_type_id; ?>&sUserId=<?php echo $sUserId; ?>" class="btn btn-sm btn-primary float-end">
-                                <i class="fas fa-download"></i>
+                            <a href="actions/download_marks.php?type=student&resT_id=<?php echo $result_type_id; ?>&sUserId=<?php echo $sUserId; ?>" class="btn btn-sm btn-primary float-end">
+                                <i class="fad fa-download"></i>
                             </a>
                         </h4>
                         <div class="table-responsive">
@@ -99,11 +99,11 @@ $semester_ordinal = ordinal($user['semester']);
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $result_marks_query = "SELECT * FROM marks WHERE s_id = '$sUserId' AND resultType_id = '$result_type_id'";
+                                    $result_marks_query = "SELECT * FROM marks WHERE s_id = '$sUserId' AND resT_id = '$result_type_id'";
                                     $result_marks_result = mysqli_query($conn, $result_marks_query);
                                     $total_marks = 0;
                                     while ($row = mysqli_fetch_assoc($result_marks_result)) {
-                                        $subject_id = $row['subject_id'];
+                                        $subject_id = $row['sub_id'];
                                         if (isset($subjects[$subject_id]) && !empty($subjects[$subject_id])) {
                                             $subject_name = $subjects[$subject_id];
                                             $marks = is_null($row['marks'])? "-" : $row['marks'];

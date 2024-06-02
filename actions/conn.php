@@ -19,5 +19,5 @@ if ($conn->connect_error) {
 }
 require_once('checkLogin.php');
 require_once('vars.php');
-require_once('cron.php');
+//require_once('cron.php');
 ?>

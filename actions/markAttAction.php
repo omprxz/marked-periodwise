@@ -1,7 +1,8 @@
 <?php
+date_default_timezone_set('Asia/Kolkata');
 session_start();
 require 'conn.php';
-require('vars.php');
+require_once('vars.php');
 
 function distance($lat1, $lon1, $lat2, $lon2, $unit) {
     if (($lat1 == $lat2) && ($lon1 == $lon2)) {
@@ -68,8 +69,8 @@ if ($userResult && mysqli_num_rows($userResult) > 0) {
             $userLat = $_POST['location']['latitude'];
             $userLon = $_POST['location']['longitude'];
 
-            $collegeLat = 25.6305705;
-            $collegeLon = 85.1033881;
+            $collegeLat = $collegeLatitude;
+            $collegeLon = $collegeLongitude;
 
             $distance = distance($userLat, $userLon, $collegeLat, $collegeLon, 'K') * 1000;
 
@@ -80,10 +81,9 @@ if ($userResult && mysqli_num_rows($userResult) > 0) {
 
             $userIP = $_SERVER['REMOTE_ADDR'];
 
-            date_default_timezone_set('Asia/Kolkata');
             $date = date('Y-m-d H:i:s');
 
-            $sql = "INSERT INTO attendance (s_id, r_id, s_lat, s_long, clg_lat, clg_long, ip, date) 
+            $sql = "INSERT INTO pendingAttendances (s_id, r_id, s_lat, s_long, clg_lat, clg_long, ip, date) 
                     VALUES ('$userId', '$routineId', '$userLat', '$userLon', '$collegeLat', '$collegeLon', '$userIP', '$date')";
 
             if (mysqli_query($conn, $sql)) {

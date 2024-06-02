@@ -31,11 +31,10 @@
     <div class="content">
       <h1 class=" fw-bold  text-center home-title">Online attendance marking made simple</h1>
 
-      <a href="signup.php" class="btn btn-outline-primary mt-3 rounded-5 ">Get Started <i class="fas fa-arrow-right"></i></a>
+      <a href="signup.php" class="btn btn-outline-primary mt-3 rounded-5 ">Get Started <i class="fad fa-arrow-right"></i></a>
 
     </div>
   </div>
   <script src="eruda.js" type="text/javascript" charset="utf-8"></script>
 </body>
-
 </html>

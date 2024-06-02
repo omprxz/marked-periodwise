@@ -16,8 +16,8 @@ require('actions/conn.php');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>View Marks</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-          type="text/css" media="all"/>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" type="text/css" media="all"/>
+ <link rel="stylesheet" href="components/libs/font-awesome-pro/css/all.min.css" type="text/css" media="all" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
   <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -28,54 +28,7 @@ require('actions/conn.php');
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
   
   <style>
-.dataTables_wrapper .custBtn-primary {
-  display: inline-block;
-  font-weight: 400;
-  color: #212529;
-  text-align: center;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  border-radius: 0.25rem;
-  transition: color 0.15s ease-in-out,
-  background-color 0.15s ease-in-out,
-  border-color 0.15s ease-in-out,
-  box-shadow 0.15s ease-in-out;
-}
-.dataTables_wrapper .custBtn-primary:hover {
-  color: #212529;
-  text-decoration: none;
-}
-.dataTables_wrapper .custBtn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-.dataTables_wrapper .custBtn-primary:hover {
-  color: #fff;
-  background-color: #0069d9 !important;
-  border-color: #0062cc;
-}
-
-.dataTables_wrapper .custBtn-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-}
-.dataTables_wrapper .custBtn-primary:not(:disabled):not(.disabled):active {
-  color: #fff;
-  background-color: #0062cc;
-  border-color: #005cbf;
-}
-.dataTables_wrapper .custBtn-primary:not(:disabled):not(.disabled):active:focus {
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-}
-  table.dataTable{
+table.dataTable{
     font-size: 0.8rem;
     border-top: 1px solid #DEE2E6;
     border-bottom: 1px solid #DEE2E6;
@@ -131,6 +84,10 @@ require('actions/conn.php');
   if($role == 'faculty'){
   ?>
     <div class="container my-4">
+      <h1 class="text-center fw-bold my-2">All Students Marks</h1>
+      <div class="text-center">
+        <a class="link-primary" href="addmarks.php">Add Marks Here <i class="fad fa-hand-point-right"></i></a>
+      </div>
         <div id="tables-container"></div>
     </div>
 <?php
@@ -151,7 +108,7 @@ require('actions/conn.php');
             success: function(jsonData) {
               if(jsonData.length > 0){
                 jsonData.forEach(data => {
-                    createTable(data.resultType, data.details);
+                    createTable(data.resultType, data.resultTypeId, data.details);
                 });
               }else{
                 $('#tables-container').html('<h3 class="text-center fw-bold">View Marks</h3><div class="alert alert-info mt-3">No marks record found.</div>')
@@ -162,7 +119,7 @@ require('actions/conn.php');
             }
         });
 
-     function createTable(resultType, details) {
+     function createTable(resultType, resultTypeId, details) {
             let tableHtml = `<div class="table-responsive">
                 <table id="table-${resultType}" class="display nowrap table table-striped table-bordered" width="100%">
                     <thead>
@@ -212,6 +169,11 @@ require('actions/conn.php');
             tableHtml += `</tbody></table></div>`;
 
             $("#tables-container").append(`<h3>${resultType}</h3>`);
+            $("#tables-container").append(`
+            <div class='d-flex gap-3 justify-content-center'>
+            <a class='btn btn-outline-primary px-2 py-1' style='font-size:0.8rem;' href='actions/download_marks.php?type=faculty&format=pdf&id=${resultTypeId}'><i class='fad fa-download'></i> PDF</a>
+            <a class='btn btn-outline-primary px-2 py-1' style='font-size:0.8rem;' href='actions/download_marks.php?type=faculty&format=csv&id=${resultTypeId}'><i class='fad fa-download'></i> CSV</a>
+            </div>`);
             $("#tables-container").append(tableHtml);
             
 $("#tables-container").append('<hr>');
@@ -219,13 +181,7 @@ $("#tables-container").append('<hr>');
             
             let table = $(`#table-${resultType}`).DataTable({
                 dom: 'Bfrtip',
-                buttons: [
-        {
-            extend: 'csvHtml5',
-            text: 'Download CSV',
-            className: 'downloadCsv custBtn-primary'
-        },
-    ],
+                buttons: [],
                 paging: false,
                 fixedHeader: true,
                 fixedColumns: {

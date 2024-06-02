@@ -16,12 +16,10 @@ if (date('N') == $attendanceBackupOnDay) {
 
     $filename_csv = fopen($filename_csv, 'w');
     if (!$filename_csv) {
-        //die('Failed to open CSV file');
     }
 
     $filename_dat = fopen($filename_dat, 'w');
     if (!$filename_dat) {
-        //die('Failed to open DAT file');
     }
 
     $headers = array('Name', 'Role', 'Branch', 'Semester', 'Session', 'Total Present', 'Percentage');
@@ -43,7 +41,7 @@ if (date('N') == $attendanceBackupOnDay) {
         (COUNT(attendance.id) / $totalWorkingDays) * 100 AS percentage
         FROM users
         LEFT JOIN attendance ON users.id = attendance.s_id
-        WHERE users.role != 'faculty'
+        WHERE users.role = 'student'
         GROUP BY users.id";
     $result = $conn->query($query);
 
@@ -82,9 +80,6 @@ if (date('N') == $attendanceBackupOnDay) {
     fclose($filename_csv);
     fclose($filename_dat);
 
-    //echo("CSV & DAT files have been saved with in backup folder $directory.");
-} else {
-    //echo("Today is not Sunday. The script will not execute.");
 }
 
 function getTotalWorkingDaysCron($startAttendenceDate) {

@@ -1,11 +1,12 @@
 <?php
 session_start();
 require 'actions/conn.php';
+require_once('actions/vars.php');
 if(isset($_SESSION['userid'])){
     if($userSql['role'] == 'student'){
   header('Location: markatt.php');
     }else{
-        header('Location: allattendance.php');
+        header('Location: classes.php');
     }
 }
 $msg = "";
@@ -18,30 +19,32 @@ if (isset($_POST['submit'])) {
   $semester = isset($_POST['semester']) ? $_POST['semester'] : '';
   $session = isset($_POST['session']) ? $_POST['session'] : '';
   $roll = isset($_POST['roll']) ? $_POST['roll'] : '';
+  $secret = isset($_POST['secret']) ? $_POST['secret'] : '';
   $pass = $_POST['pass'];
   $pass = password_hash($pass, PASSWORD_DEFAULT);
+  
   $sql = "SELECT * FROM users WHERE email='$email'";
 
   if ($role == "student") {
-    if (empty($branch) || empty($semester) || empty($roll) || empty($session)) {
+    if (empty($branch) || empty($semester) || empty($roll) || empty($session) || $secret == '') {
       $msg = "All fields are required!";
       $status = "danger";
     } else {
       $sql = "SELECT * FROM users WHERE email='$email' OR (role='student' AND branch='$branch' AND roll='$roll' AND session='$session')";
       $sql2 = "INSERT INTO users (name, email, role, branch, semester, session, roll, pass) VALUES ('$name', '$email', '$role', '$branch', '$semester', '$session', '$roll', '$pass')";
+      $secretArray = $secretCodeStudent;
     }
   } else {
     $sql = "SELECT * FROM users WHERE email='$email'";
     $sql2 = "INSERT INTO users (name, email, role, pass) VALUES ('$name', '$email', '$role', '$pass')";
+    $secretArray = $secretCodeFaculty;
   }
-
+  if(in_array($secret, $secretArray)){
   $result = mysqli_query($conn, $sql);
-
   if (mysqli_num_rows($result) > 0) {
     $msg = "Email or User already exists!";
     $status = "danger";
   } else {
-
     if (!empty($sql2)) {
       if (mysqli_query($conn, $sql2)) {
         $msg = "Account Created! Proceed to <a href='login.php'>Login</a>";
@@ -52,6 +55,11 @@ if (isset($_POST['submit'])) {
       }
     }
   }
+  }else{
+    $msg = "Wrong secret code for $role registration.";
+    $status = "danger";
+  }
+  
 }
 
 ?>
@@ -61,9 +69,7 @@ if (isset($_POST['submit'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" type="text/css" media="all" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="components/libs/font-awesome-pro/css/all.min.css" />
 <style>
   .student-dets-div{
   display: none;
@@ -149,9 +155,14 @@ if (isset($_POST['submit'])) {
 aria-label="Password" required>
 <label for="pass" class="visually-hidden">Password</label>
 <button class="btn btn-outline-secondary toggle-password" type="button" data-target="pass">
-<i class="fas fa-eye"></i>
+<i class="far fa-eye"></i>
 </button>
 </div>
+
+<div class="input-group mb-3 secret-div d-none">
+  <input type="secret" name="secret" class="form-control" id="secret" placeholder="Secret code" aria-label="Secret" required>
+</div>
+
 <div class="mt-4 text-center">
 <button name="submit" class="btn btn-outline-success register">Register</button>
 </div>
@@ -159,15 +170,33 @@ aria-label="Password" required>
 </form>
 </div>
 
-<script>
-$(".register").click(function() {
-e.preventDefault()
-alert("ok")
-})
-</script>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-<script src="eruda.js" type="text/javascript" charset="utf-8"></script>
-<script src="components/signup.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  $(document).ready(function () {
+    $(".toggle-password").click(function () {
+        var targetId = $(this).data("target");
+        var passwordField = $("#" + targetId);
+        var fieldType = passwordField.attr("type") === "password" ? "text" : "password";
+        passwordField.attr("type", fieldType);
+        $(this).find("i").toggleClass("fa-eye fa-eye-slash");
+    });
+});
+
+$("#role").on("change", function() {
+   $('.secret-div').removeClass('d-none')
+   $('#secret').attr('required', true)
+    if ($(this).val() == "student") {
+        $('.student-dets-div').css('display', 'block');
+        $('.student-dets-input').attr('required', true)
+        $('#secret').attr('placeholder', 'Secret code for student registration')
+    } else {
+        $('.student-dets-div').css('display', 'none');
+        $('.student-dets-input').removeAttr('required')
+        $('#secret').attr('placeholder', 'Secret code for faculty registration')
+    }
+});
+
+</script>
 </body>
 
 </html>

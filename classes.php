@@ -26,17 +26,16 @@ require('actions/conn.php');
     if($role == 'faculty'){
   ?>
   <div class="container">
-    <div class="text-center mt-4">
-      <button type="button" id="addClassBtn" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Class</button>
+    <h1 class="text-center fw-bold my-3">Classes</h1>
+    <div class="text-center">
+      <button type="button" id="addClassBtn" class="btn btn-outline-primary"><i class="fad fa-plus"></i> Add Class</button>
     </div>
     <ul class="list-group mt-4 mx-2 classes-list">
       <?php
         $classQuery = "SELECT id, session, branch FROM classes";
         $classResult = mysqli_query($conn, $classQuery);
         while($row = mysqli_fetch_assoc($classResult)) {
-          echo "<li class='list-group-item d-flex justify-content-between align-items-center' data-id='".$row['id']."'>".$row['session']." - ".$row['branch']."
-          <span class='text-danger delete-class' data-id='".$row['id']."' style='cursor: pointer;'><i class='fas fa-trash-alt'></i></span>
-          </li>";
+          echo "<li class='list-group-item d-flex justify-content-between align-items-center link-primary' data-id='".$row['id']."'><a href='/class.php?id=".$row['id']."' class='nav-link'>".$row['session']." - ".$row['branch']."</a><span class='text-danger delete-class' data-id='".$row['id']."' style='cursor: pointer;'><i class='fad fa-trash-alt'></i></span></li>";
         }
       ?>
     </ul>

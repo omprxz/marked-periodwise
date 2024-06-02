@@ -30,8 +30,7 @@ require_once('actions/conn.php');
       ["path" => "/allstudents.php", "title" => "All Students Details"],
       ["path" => "/allmarks.php", "title" => "View Marks"],
       ["path" => "/addmarks.php", "title" => "Add Marks"],
-      ["path" => "/profile.php", "title" => "Profile"],
-      ["path" => "/logout.php", "title" => "Logout"],
+      ["path" => "/result_types.php", "title" => "Manage Result Types"]
     ];
     ?>
     <div class="container">

@@ -5,7 +5,7 @@ if(isset($_SESSION['userid'])){
     if($userSql['role'] == 'student'){
   header('Location: markatt.php');
     }else{
-        header('Location: allattendance.php');
+        header('Location: classes.php');
     }
 }
 $msg = isset($_GET['msg']) ? $_GET['msg'] : "";
@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
       if($user['role']=='student'){
       header("Location: markatt.php");
     }else{
-        header("Location: allattendance.php");
+        header("Location: classes.php");
     }
     } else {
       $msg = "Invalid password!";
@@ -47,8 +47,7 @@ if (isset($_POST['submit'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="components/libs/font-awesome-pro/css/all.min.css" />
   <link rel="stylesheet" href="components/login.css">
 </head>
 <body>
@@ -69,7 +68,7 @@ if (isset($_POST['submit'])) {
       <input type="password" name="pass" class="form-control" id="pass" placeholder="Password" aria-label="Password" required>
       <label for="pass" class="visually-hidden">Password</label>
       <button class="btn btn-outline-secondary toggle-password" type="button" data-target="pass">
-        <i class="fas fa-eye"></i>
+        <i class="far fa-eye"></i>
       </button>
     </div>
     <div class="text-center my-3">Forgot password? <a href="forgot.php" class="link-primary">Reset here</a></div>

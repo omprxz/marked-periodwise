@@ -11,6 +11,7 @@ require_once 'conn.php';
 $class_id = $_GET['id'];
 
 $daysMap = [
+    0 => 'Sunday',
     1 => 'Monday',
     2 => 'Tuesday',
     3 => 'Wednesday',
@@ -72,8 +73,8 @@ if (mysqli_num_rows($daysResult) > 0) {
                 echo '<td>' . $subjectName . '</td>';
                 echo '<td>' . $teacherName . '</td>';
                 echo '<td>' .  '<span class="d-flex gap-3 justify-content-center">
-                <i class="fas fa-pencil-alt edit-routine text-primary" data-id="' . $row['id'] . '" style="cursor: pointer;"></i>
-                <i class="fas fa-trash-alt delete-routine text-danger" data-id="' . $row['id'] . '" style="cursor: pointer;"></i>
+                <i class="fad fa-pencil-alt edit-routine text-primary" data-id="' . $row['id'] . '" style="cursor: pointer;"></i>
+                <i class="fad fa-trash-alt delete-routine text-danger" data-id="' . $row['id'] . '" style="cursor: pointer;"></i>
             </span>' . '</td>';
                 echo '</tr>';
             }

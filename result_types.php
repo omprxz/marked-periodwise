@@ -27,7 +27,7 @@ require('actions/conn.php');
   ?>
   <div class="container">
     <div class="text-center mt-4">
-      <button type="button" id="addResultTypeBtn" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add Result Type</button>
+      <button type="button" id="addResultTypeBtn" class="btn btn-outline-primary"><i class="fad fa-plus"></i> Add Result Type</button>
     </div>
     <ul class="list-group mt-4 mx-2 result-types-list">
       <?php
@@ -36,8 +36,8 @@ require('actions/conn.php');
         while($row = mysqli_fetch_assoc($resultTypeResult)) {
           echo "<li class='list-group-item d-flex justify-content-between align-items-center' data-id='".$row['id']."'>".$row['type']."
           <p class='mb-0 d-flex gap-4'>
-            <i class='fas fa-pencil edit' data-id='".$row['id']."'></i>
-            <i class='fas fa-trash-alt delete' data-id='".$row['id']."'></i>
+            <i class='fad fa-pencil edit' data-id='".$row['id']."'></i>
+            <i class='fad fa-trash-alt delete' data-id='".$row['id']."'></i>
           </p>
           </li>";
         }

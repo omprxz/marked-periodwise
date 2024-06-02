@@ -118,8 +118,8 @@ $attMarkedStyle = $isAttendanceMarked ? '' : 'd-none';
             </form>
 
             <div class="alert alert-success fw-semibold mx-3 my-5 attMarked <?php echo $attMarkedStyle; ?>" role="alert">
-                Current period attendance has been marked <i class="fas fa-circle-check"></i> <br>
-                See You In Next Period. <i class="fas fa-hand-point-right"></i> <i class="fas fa-hand-point-left"></i>
+                Current period attendance has been marked <i class="fad fa-circle-check"></i> <br>
+                See You In Next Period. <i class="fad fa-hand-point-right"></i> <i class="fad fa-hand-point-left"></i>
             </div>
             <div class="text-center my-3">Want to view your attendance? <a href="viewatt.php" class="link-primary">View here</a></div>
         <?php endif; ?>

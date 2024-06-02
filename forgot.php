@@ -37,7 +37,7 @@
                     aria-label="New Password">
                 <label for="pass" class="visually-hidden">New Password</label>
                 <button class="btn btn-outline-secondary toggle-password" type="button" data-target="pass">
-                    <i class="fas fa-eye"></i>
+                    <i class="fad fa-eye"></i>
                 </button>
             </div>
               <div class="input-group mb-3">
@@ -45,7 +45,7 @@
                     aria-label="Confirm New Password">
                 <label for="pass2" class="visually-hidden">Confirm New Password</label>
                 <button class="btn btn-outline-secondary toggle-password" type="button" data-target="pass2">
-                    <i class="fas fa-eye"></i>
+                    <i class="fad fa-eye"></i>
                 </button>
             </div>
               <div class="mt-4 text-center">

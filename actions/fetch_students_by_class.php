@@ -20,11 +20,14 @@ if ($classInfoResult->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $students[] = $row;
         }
+    }else{
+       echo json_encode(['icon' => 'error', 'message' => 'No students']);
+       exit;
     }
 
     echo json_encode($students);
 } else {
-    echo json_encode(['error' => 'Class not found']);
+    echo json_encode(['icon' => 'error', 'message' => 'Class not found']);
 }
 
 $conn->close();
