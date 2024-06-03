@@ -52,7 +52,7 @@ if ($userResult && mysqli_num_rows($userResult) > 0) {
                         $routineEndDate = date('Y-m-d');
                         $routineStartDate = date('Y-m-d', strtotime("-6 days"));
 
-                        $attendanceQuery = "SELECT COUNT(*) AS attendance_count FROM attendance WHERE r_id = '$routineId'  AND DATE(date) BETWEEN '$routineStartDate' AND '$routineEndDate'";
+                        $attendanceQuery = "SELECT COUNT(*) AS attendance_count FROM attendance WHERE r_id = '$routineId' AND s_id = '$sUserId' AND DATE(date) BETWEEN '$routineStartDate' AND '$routineEndDate'";
                         $attendanceResult = mysqli_query($conn, $attendanceQuery);
                         $attendanceData = mysqli_fetch_assoc($attendanceResult);
                         $totalAttendanceCount += $attendanceData['attendance_count'];

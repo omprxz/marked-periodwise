@@ -10,7 +10,7 @@
   $('.attendancePill').click(function() {
     let tabId = $(this).attr('href')
     if($(tabId).attr('data-loaded') == ''){
-      $(tabId).attr('data-loaded', 'true')
+     // $(tabId).attr('data-loaded', 'true')
     <?php if (isset($_GET['id'])) { ?>
         const classId = <?php echo json_encode($_GET['id']); ?>;
     <?php } ?>
@@ -25,6 +25,7 @@
                 return;
             } else {
                 $('.noAttendanceAlert').addClass('d-none');
+                $('#tables-container').html('')
             }
               tbno=1
             data.forEach(subject => {

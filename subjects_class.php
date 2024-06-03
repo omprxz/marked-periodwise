@@ -11,7 +11,7 @@
 $('.subjectsPill').click(function() {
     let tabId = $(this).attr('href')
     if($(tabId).attr('data-loaded') == ''){
-      $(tabId).attr('data-loaded', 'true')
+    //  $(tabId).attr('data-loaded', 'true')
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
