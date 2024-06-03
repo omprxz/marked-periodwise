@@ -1,3 +1,13 @@
+<?php
+session_start();
+if (!isset($_SESSION["userid"])) {
+  header("Location: login.php");
+  exit();
+} else {
+  $sUserId = $_SESSION["userid"];
+}
+require_once('actions/conn.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +36,7 @@
 <body>
 <?php include('nav.php'); ?>
 <?php 
+date_default_timezone_set('Asia/Kolkata');
   $roleQ = "SELECT role FROM users WHERE id = '$sUserId' LIMIT 1";
   $roleE = mysqli_fetch_assoc(mysqli_query($conn, $roleQ));
   $role = $roleE['role'];

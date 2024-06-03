@@ -16,7 +16,7 @@ if (!isset($_SESSION['userid'])) {
         $ip = $_SERVER['REMOTE_ADDR'];
         $byid = $sUserId;
         
-        $insertQuery = "INSERT INTO classes (session, branch, byid, ip) VALUES ('$session', '$branch', '$byid', '$ip')";
+        $insertQuery = "INSERT INTO classes (session, branch, byid, ip, created) VALUES ('$session', '$branch', '$byid', '$ip', '$timestamp')";
         if (mysqli_query($conn, $insertQuery)) {
             $response = array("status" => "success", "message" => "Class added successfully.", "icon" => "success");
         } else {

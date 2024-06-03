@@ -59,7 +59,7 @@ $timeSlotCheckQuery = "SELECT * FROM routines WHERE id != '$routineId' AND day =
         exit();
     }
 
-    $updateQuery = "UPDATE routines SET day = '$day', fromTime = '$fromTime', toTime = '$toTime', sub_id = '$subjectId', c_id = '$classId', byid = '$byid', ip = '$ip' WHERE id = '$routineId'";
+    $updateQuery = "UPDATE routines SET day = '$day', fromTime = '$fromTime', toTime = '$toTime', sub_id = '$subjectId', c_id = '$classId', byid = '$byid', ip = '$ip', updated = '$timestamp' WHERE id = '$routineId'";
 
     if (mysqli_query($conn, $updateQuery)) {
         echo json_encode(['icon' => 'success', 'message' => 'Routine updated successfully.']);

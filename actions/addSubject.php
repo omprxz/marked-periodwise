@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ip = $_SERVER['REMOTE_ADDR'];
         $byid = $_SESSION['userid'];
 
-        $insertQuery = "INSERT INTO subjects (code, name, c_id, f_id, hpw, type, ip, byid) VALUES ('$code', '$name', '$class_id', '$teacher_id', '$hpw', '$type', '$ip', '$byid')";
+        $insertQuery = "INSERT INTO subjects (code, name, c_id, f_id, hpw, type, ip, byid, created) VALUES ('$code', '$name', '$class_id', '$teacher_id', '$hpw', '$type', '$ip', '$byid', '$timestamp')";
 
         if (mysqli_query($conn, $insertQuery)) {
             $response = array('message' => 'Subject added successfully.', 'icon' => 'success');

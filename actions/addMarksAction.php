@@ -87,14 +87,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if (mysqli_num_rows($marksResult) > 0) {
                     $updateMarks = "
                         UPDATE marks 
-                        SET marks = '$marks', ip = '$ip', f_id = '$sUserId' 
+                        SET marks = '$marks', ip = '$ip', f_id = '$sUserId', updated = '$timestamp' 
                         WHERE s_id = '$studentId' AND sub_id = '$subject' AND resT_id = '$resType'
                     ";
                     mysqli_query($conn, $updateMarks);
                 } else {
                     $addMarks = "
-                        INSERT INTO marks (s_id, sub_id, marks, resT_id, ip, f_id)
-                        VALUES ('$studentId', '$subject', '$marks', '$resType', '$ip', '$sUserId')
+                        INSERT INTO marks (s_id, sub_id, marks, resT_id, ip, f_id, created)
+                        VALUES ('$studentId', '$subject', '$marks', '$resType', '$ip', '$sUserId', '$timestamp')
                     ";
                     mysqli_query($conn, $addMarks);
                 }

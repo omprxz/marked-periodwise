@@ -34,9 +34,10 @@ elseif($_GET['action'] == 'approve'){
         $clg_long = $row['clg_long'];
         $date = $row['date'];
         $ip = $row['ip'];
+        $approvedAt = date('Y-m-d H:i:s');
 
-        $insert_query = "INSERT INTO attendance (s_id, r_id, s_lat, s_long, clg_lat, clg_long, date, ip) 
-                         VALUES ('$s_id', '$r_id', '$s_lat', '$s_long', '$clg_lat', '$clg_long', '$date', '$ip')";
+        $insert_query = "INSERT INTO attendance (s_id, r_id, s_lat, s_long, clg_lat, clg_long, date, ip, approvedAt) 
+                         VALUES ('$s_id', '$r_id', '$s_lat', '$s_long', '$clg_lat', '$clg_long', '$date', '$ip', '$approvedAt')";
 
         if(mysqli_query($conn, $insert_query)) {
             $delete_query = "DELETE FROM pendingAttendances WHERE id = '$id'";

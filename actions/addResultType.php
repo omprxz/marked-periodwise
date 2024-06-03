@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $query = "INSERT INTO result_types (type) VALUES ('$resultType')";
+    $query = "INSERT INTO result_types (type, created) VALUES ('$resultType', '$timestamp')";
 
     if (mysqli_query($conn, $query)) {
         echo json_encode(array("status" => "success", "message" => "Result type added successfully"));

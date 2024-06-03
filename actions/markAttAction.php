@@ -48,13 +48,14 @@ if ($userResult && mysqli_num_rows($userResult) > 0) {
     if ($classResult && mysqli_num_rows($classResult) > 0) {
         $classData = mysqli_fetch_assoc($classResult);
         $classId = $classData['id'];
-
+        $dayOfWeek = date('w', strtotime('now'));
+        $timeNow = date('H:i:s');
       $routineQuery = "SELECT r.id, r.fromTime, r.toTime, s.name 
                  FROM routines r 
                  JOIN subjects s ON r.sub_id = s.id 
                  WHERE r.c_id = '$classId' 
-                 AND r.day = (DAYOFWEEK(NOW()) - 1)
-                 AND TIME(NOW()) BETWEEN r.fromTime AND r.toTime";
+                 AND r.day = '$dayOfWeek'
+                 AND '$timeNow' BETWEEN r.fromTime AND r.toTime";
         $routineResult = mysqli_query($conn, $routineQuery);
 
         if ($routineResult && mysqli_num_rows($routineResult) > 0) {

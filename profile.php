@@ -31,12 +31,12 @@ if (isset($_POST['update'])) {
     $session = $_POST['session'];
     $roll = $_POST['roll'];
 
-    $sql = "UPDATE users SET name='$name', email='$email', branch='$branch', semester='$semester',session='$session', roll='$roll' WHERE id=$sUserId";
+    $sql = "UPDATE users SET name='$name', email='$email', branch='$branch', semester='$semester',session='$session', roll='$roll', updated = '$timestamp' WHERE id=$sUserId";
 }else{
     $name = $_POST['name'];
     $email = $_POST['email'];
 
-    $sql = "UPDATE users SET name='$name', email='$email' WHERE id=$sUserId";
+    $sql = "UPDATE users SET name='$name', email='$email', updated = '$timestamp' WHERE id=$sUserId";
 }
     if (mysqli_query($conn, $sql)) {
         $msg = "Profile updated";

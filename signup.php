@@ -22,6 +22,7 @@ if (isset($_POST['submit'])) {
   $secret = isset($_POST['secret']) ? $_POST['secret'] : '';
   $pass = $_POST['pass'];
   $pass = password_hash($pass, PASSWORD_DEFAULT);
+  $ip = $_SERVER['REMOTE_ADDR'];
   
   $sql = "SELECT * FROM users WHERE email='$email'";
 
@@ -31,12 +32,12 @@ if (isset($_POST['submit'])) {
       $status = "danger";
     } else {
       $sql = "SELECT * FROM users WHERE email='$email' OR (role='student' AND branch='$branch' AND roll='$roll' AND session='$session')";
-      $sql2 = "INSERT INTO users (name, email, role, branch, semester, session, roll, pass) VALUES ('$name', '$email', '$role', '$branch', '$semester', '$session', '$roll', '$pass')";
+      $sql2 = "INSERT INTO users (name, email, role, branch, semester, session, roll, pass, ip, created) VALUES ('$name', '$email', '$role', '$branch', '$semester', '$session', '$roll', '$pass', '$ip', '$timestamp')";
       $secretArray = $secretCodeStudent;
     }
   } else {
     $sql = "SELECT * FROM users WHERE email='$email'";
-    $sql2 = "INSERT INTO users (name, email, role, pass) VALUES ('$name', '$email', '$role', '$pass')";
+    $sql2 = "INSERT INTO users (name, email, role, pass, created) VALUES ('$name', '$email', '$role', '$pass', '$timestamp')";
     $secretArray = $secretCodeFaculty;
   }
   if(in_array($secret, $secretArray)){

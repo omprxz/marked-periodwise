@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['userid'])) {
         exit();
     }
 
-    $updateQuery = "UPDATE subjects SET code = '$code', name = '$name', c_id = '$classId', f_id = '$teacherId', hpw = '$hpw', type = '$type' WHERE id = '$subjectId'";
+    $updateQuery = "UPDATE subjects SET code = '$code', name = '$name', c_id = '$classId', f_id = '$teacherId', hpw = '$hpw', type = '$type', updated = '$timestamp' WHERE id = '$subjectId'";
 
     if (mysqli_query($conn, $updateQuery)) {
         echo json_encode(['message' => 'Subject updated successfully.', 'icon' => 'success']);

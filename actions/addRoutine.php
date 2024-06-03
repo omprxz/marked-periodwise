@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION['userid'])) {
         exit();
     }
 
-    $insertQuery = "INSERT INTO routines (day, fromTime, toTime, sub_id, c_id, byid, ip) VALUES ('$day', '$fromTime', '$toTime', '$subjectId', '$classId', '$byid', '$ip')";
+    $insertQuery = "INSERT INTO routines (day, fromTime, toTime, sub_id, c_id, byid, ip, created) VALUES ('$day', '$fromTime', '$toTime', '$subjectId', '$classId', '$byid', '$ip', '$timestamp')";
 
     if (mysqli_query($conn, $insertQuery)) {
         echo json_encode(['status' => 'success', 'message' => 'Routine added successfully.']);
